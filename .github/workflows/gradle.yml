@@ -20,77 +20,13 @@ jobs:
     - name: Set up JDK 11
       uses: actions/setup-java@v2
       with:
-        java-version: '16' #'11'
+        java-version: '11' #'16'
         distribution: 'adopt'
     - name: Grant execute permission for gradlew
       run: ICACLS gradlew /grant:r "users:(RX)"  #chmod +x gradlew #
     - name: Build with Gradle
       run: ./gradlew build
       
-#   SonarQube:
-  
-#     runs-on: ubuntu-latest #[self-hosted, linux, x64]
-#     needs: ["build"]
-    
-#     steps:
-#     - name: SonarQubeTrigger
-#       uses: actions/checkout@master
-#     - name: SonarQube Scan
-#       uses: kitabisa/sonarqube-action@master
-#       with:
-#         host: ${{ secrets.SONARQUBE_HOST }}
-#         login: ${{ secrets.SONARQUBE_TOKEN }}
-#         #以下は効いてない?sonar-project.properties.ファイルに書いたのは効く
-#         projectBaseDir: "."
-#         projectKey: "Scanner-for-gradle"
-#         projectName: "Scanner-for-gradle"
-#         projectVersion: "v0.0.1"
-
-
-
-#   run-shell-command:
-#     runs-on: self-hosted #ubuntu-latest
-#     steps:
-#       - name: echo a string
-#         run: echo "Hello World!!!!!!"
-#       - name: multi script
-#         run: |
-#            dir
-#   run-windows-command:
-#     runs-on: self-hosted #windows-latest
-#     needs: ["run-shell-command"] #jobsをparallelではなくseriesで実行するために,arrayで依存関係書く
-#     steps:
-#       - name: Directory PowerShell
-#         run: Get-location
-#       - name: Directory Bash
-#         run: pwd
-#         shell: pwsh #bash　
-
-#   run-javascript-actions:
-#     runs-on: self-hosted #ubuntu-latest
-#     steps:
-#       - name: Simple JS Action
-#         id: greet
-#         uses: actions/hello-world-javascript-action@v1.1
-#         with:
-#           who-to-greet: James
-#       - name: Log Greeting Time
-#         run: echo "${{steps.greet.outputs.time}}"
-
-
-#   run-checkout-action:
-#     runs-on: self-hosted #ubuntu-latest
-#     steps:
-#       - name: Checkout
-#         uses: actions/checkout@v1
-#       - name: List Files After Checkout
-#         run: |
-#           pwd
-#           ls -Directory
-#           echo $GITHUB_SHA
-#           echo $GITHUB_REPOSITORY
-#           echo $GITHUB_WORKSPACE
-#           echo "${{github.token}}"
 
   SonarQube_on_windows2016: #buildもself-hosted, run:をICACLSに変更
   
@@ -105,5 +41,5 @@ jobs:
 #       with:
 #         host: ${{ secrets.SONARQUBE_HOST }}
 #         login: ${{ secrets.SONARQUBE_TOKEN }}
-      run: .\gradlew.bat -D'sonar.host.url=http://35.194.123.223:9000' sonarqube -D"sonar.login=668d1e4591a8f91ded1545e27593c62fcbbabc2b" 
-      #再度buildしていないか
+      run: .\gradlew.bat sonarqube -Dsonar.projectKey=sonarqube-scanner-test1 -Dsonar.host.url=http://10.14.2.69:9000 -Dsonar.login=f9a2ab79ed547c4ef09161fb4d6a98a9c95c23e9
+      #ここを変数で記載
