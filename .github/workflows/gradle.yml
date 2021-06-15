@@ -31,7 +31,7 @@ jobs:
   SonarQube_on_windows2016: #buildもself-hosted, run:をICACLSに変更
   
     runs-on: [self-hosted, windows, x64]
-    needs: ["build"]
+#    needs: ["build"]
     
     steps:
     - name: SonarQubeTrigger
